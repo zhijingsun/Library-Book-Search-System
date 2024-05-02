@@ -79,12 +79,9 @@ def signup(request):
                                    birthday=birthday,
                                    email=email, 
                                    password=password)
-            print(1)
             new_user.save()
-            print(2)
             # 获取新用户的 ID
             user_id = new_user.user_id
-            print(3)
 
             # 根据用户 ID 的取余选择数据库
             db_index = user_id % 3
