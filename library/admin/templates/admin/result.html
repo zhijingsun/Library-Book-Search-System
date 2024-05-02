@@ -1,0 +1,41 @@
+<!-- db_manager/templates/db_manager/result.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Query Result</title>
+</head>
+<body>
+    <h1>Query Result</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                {% for column in result.0 %}
+                    <th>{{ column }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in result %}
+                <tr>
+                    {% for value in row %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <!-- 返回到 user_management 页面的按钮 -->
+    <form method="get" action="{% url 'user_management' %}">
+        <button type="submit">Back to User Management</button>
+    </form>
+
+    <!-- 返回到 book_management 页面的按钮 -->
+    <form method="get" action="{% url 'book_management' %}">
+        <button type="submit">Back to Book Management</button>
+    </form>
+</body>
+</html>

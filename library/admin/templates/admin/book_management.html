@@ -1,0 +1,104 @@
+<!-- admin/templates/admin/book_management.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Management</title>
+</head>
+<body>
+    <h1>Book Management</h1>
+
+    <!-- 书籍搜索表单 -->
+    <form method="post">
+        {% csrf_token %}
+        <label for="search_term">Search Term:</label>
+        <input type="text" id="search_term" name="search_term"><br>
+        <label for="search_field">Search Field:</label>
+        <select id="search_field" name="search_field">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="isbn">ISBN</option>
+        </select><br>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- 显示搜索结果 -->
+    {% if books %}
+        <h2>Search Results:</h2>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Author</th>
+                    <th>Title</th>
+                    <th>ISBN</th>
+                    <th>Database</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr>
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.isbn }}</td>
+                        <td>{{ book.database }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+
+    <!-- 数据库查询操作框 -->
+    <h2>Database Query</h2>
+    <form method="post" action="{% url 'execute_query' %}">
+        {% csrf_token %}
+
+        <!-- 数据库选择框 -->
+        <label for="selected_database">Select Database:</label>
+        <select id="selected_database" name="selected_database">
+            <option value="book_db0">Book DB 0</option>
+            <option value="book_db1">Book DB 1</option>
+            <option value="book_db2">Book DB 2</option>
+        </select><br><br>
+
+        <label for="query">Enter SQL Query:</label><br>
+
+        <textarea id="query" name="query" rows="5" cols="80"></textarea><br><br>
+        <button type="submit">Execute Query</button>
+    </form>
+
+    <!-- 显示查询结果或错误信息 -->
+    {% if query %}
+        <h2>Query: {{ query }}</h2>
+        {% if result %}
+            <h3>Query Result:</h3>
+            <ul>
+                {% for row in result %}
+                    <li>{{ row }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        {% if error_message %}
+            <h3>Error:</h3>
+            <p>{{ error_message }}</p>
+        {% endif %}
+    {% endif %}
+
+    <!-- 用户管理页面跳转按钮 -->
+    <a href="{% url 'user_management' %}">Go to User Management</a>
+
+    <!-- 注销按钮
+    <form method="post">
+        {% csrf_token %}
+        <button href="/user/index/" type="submit">Logout</button>
+        <!-- <button type="submit" name="logout">Logout</button> -->
+    </form> -->
+
+    <form method="post" action="/admin/adminlogin/">
+        {% csrf_token %}
+        <button type="submit">Logout</button>
+    </form>
+</body>
+</html>

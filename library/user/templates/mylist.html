@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyList</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+            color: #333;
+        }
+        .header {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          display: flex;
+          align-items: center;
+        }
+        .header p {
+          margin-right: 10px;
+        }
+        #edit-profile-button {
+          margin-right: 10px;
+        }
+        #my-list-button {
+          margin-right: 10px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            width: 300px;
+            margin: 40px auto;
+        }
+        .form-group {
+            margin-bottom: 10px;
+        }
+        label {
+            white-space: nowrap;
+        }
+        .form-field-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: nowrap;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="submit"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #5cb85c;
+            color: white;
+            border-color: #4cae4c;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #449d44;
+        }
+        table {
+            width: 60%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #e7e7e7;
+        }
+        .messages-container {
+            text-align: center;
+            width: 100%;
+        }
+
+        .messages {
+            list-style: none;
+            padding: 0;
+        }
+
+        .messages li {
+            display: inline-block;
+            margin: 10px;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ user.user_name }}'s Book List</h1>
+        {% if not books%}
+                <p>No book in your list yet. Search and add your favorite books!</p>
+        {% else %}
+        {% if messages %}
+            <div class="messages-container">
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li class="{{ message.tags }}">
+                        {{ message }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+            <table>
+            <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Action</th>
+            </tr>
+                {% for book in books %}
+                <tr>
+                    <td><a href="{% url 'book_detail' book.book_id %}">{{ book.title }}</a></td>
+                    <td>{{ book.author }}</td>
+                    <td>
+                        <form method="post" action="{% url 'mylist' user.user_id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="book_id" value="{{ book.book_id }}">
+                            <button type="submit" name="delete">Delete from List</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    <div style="display: flex; justify-content: center;">
+      <button class="button" onclick="window.location.href='/user/index/?user_id={{ user.user_id }}'">Back</button>
+    </div>
+
+</body>
+</html>

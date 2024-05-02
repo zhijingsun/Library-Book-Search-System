@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+</head>
+<body>
+
+    <div style="margin: 15% 40%;">
+        <h1>Log In</h1>
+        <form action="/login/login/" method="post">
+        {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+        {% endif %}
+        {% csrf_token %}
+        <p>
+            <label for="email">email:</label>
+            <input type="email" id="email" name="email" placeholder="email" required />
+        </p>
+        <p>
+            <label for="password">password:</label>
+            <input type="text" id="password" name="password" placeholder="password" required >
+        </p>
+        <a href="/login/signup/"><ins>signup</ins></a>
+        <button href="/user/index/" type="submit">login</button>
+        <p>Administrator? <a href="/admin/adminlogin/"><ins>Login as Admin</ins></a></p>
+        </form>
+    </div>
+
+</body>
+</html>

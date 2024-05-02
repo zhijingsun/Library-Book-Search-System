@@ -1,0 +1,121 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ user.user_name }}'s Profile</title>
+     <style>
+        .edit-profile-container {
+            margin: 5% 25%;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 5px;
+        }
+        input[type=text],
+        input[type=date],
+        input[type=email],
+        input[type=password],
+        button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #e7e7e7;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-profile-container">
+        <h1>Edit Profile</h1>
+
+        <form action="{% url 'edit_profile' user.user_id %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username" value="{{ user.user_name }}" required>
+            <br>
+            <input type="date" name="birthday" value="{{ user.birthday|date:'Y-m-d' }}" required>
+            <br>
+            <input type="email" name="email" placeholder="Email" value="{{ user.email }}" required>
+            <br>
+            <button type="submit">Update Profile</button>
+        </form>
+        <button type="button" onclick="document.getElementById('passwordModal').style.display='block'">Change Password</button>
+        
+        <div id="passwordModal" style="display:none;border: 1px solid black; padding: 10px; width: 300px; margin: 0 auto;">
+            <form action="{% url 'change_password' user.user_id %}" method="post" onsubmit="return checkPasswords();">
+                {% csrf_token %}
+                <h2 style="text-align: center;">Change Password</h2>
+                <input type="password" name="old_password" placeholder="Old Password" required style="width: 90%; margin-bottom: 10px;">
+                <br>
+                <input type="password" name="new_password" placeholder="New Password" required style="width: 90%; margin-bottom: 10px;">
+                <br>
+                <input type="password" name="confirm_new_password" placeholder="Confirm New Password" required style="width: 90%; margin-bottom: 10px;">
+                <br>
+                <div style="text-align: center;">
+                    <button type="submit" style="margin-right: 5px;">Submit</button>
+                    <button type="button" onclick="document.getElementById('passwordModal').style.display='none'">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <button type="button" onclick="document.getElementById('accountdelete').style.display='block'">Delete Account</button>
+        <div id="accountdelete" style="display:none;border: 1px solid black; padding: 10px; width: 300px; margin: 0 auto;">
+            <form action="{% url 'delete_user' user.user_id %}" method="post">
+                {% csrf_token %}
+                <h2 style="text-align: center;">Are you sure you want to delete your account?</h2>
+                <input type="hidden" name="user" value="{{ request.GET }}">
+                <input type="email" name="email" placeholder="Email" required style="width: 90%; margin-bottom: 10px;">
+                <input type="password" name="password" placeholder="Password" required style="width: 90%; margin-bottom: 10px;">
+                <br>
+                <div style="text-align: center;">
+                    <button type="submit" style="margin-right: 5px;">Delete Account</button>
+                    <button type="button" onclick="document.getElementById('accountdelete').style.display='none'">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <button class="button" onclick="window.location.href='/user/index/?user_id={{ user.user_id }}'">Back</button>
+
+
+        {% if messages %}
+            {% for message in messages %}
+                <div>{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    </div>
+
+    
+
+
+     <script>
+        function checkPasswords() {
+            var old_password = document.querySelector('input[name="old_password"]').value;
+            var new_password = document.querySelector('input[name="new_password"]').value;
+            var confirm_new_password = document.querySelector('input[name="confirm_new_password"]').value;
+
+            if (!old_password) {
+                alert('Please enter your old password.');
+                return false;
+            }
+
+            if (new_password != confirm_new_password) {
+                alert('New passwords do not match.');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+
+</body>
+</html>

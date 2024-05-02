@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>book_detail</title>
+    <style>
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: #f8f8f8;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button:hover {
+            background-color: #e7e7e7;
+        }
+    </style>
+</head>
+<body>
+<h1 align="center">Book Details</h1>
+    {% if book %}
+        <table>
+            <tr>
+                <th>Book ID</th>
+                <td>{{ book.book_id }}</td>
+            </tr>
+            <tr>
+                <th>ISBN</th>
+                <td>{{ book.isbn }}</td>
+            </tr>
+            <tr>
+                <th>Author</th>
+                <td>{{ book.author }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ book.title }}</td>
+            </tr>
+            <tr>
+                <th>Publisher</th>
+                <td>{{ book.publisher }}</td>
+            </tr>
+            <tr>
+                <th>Publication Year</th>
+                <td>{{ book.publication_year }}</td>
+            </tr>
+            <tr>
+                <th>Subjects</th>
+                <td>{{ book.subjects }}</td>
+            </tr>
+        </table>
+
+        <div class="button-container">
+            <button class="button" onclick="history.back();">Back</button>
+        </div>
+    {% else %}
+        <p>No book details are available.</p>
+    {% endif %}
+
+</body>
+</html>
