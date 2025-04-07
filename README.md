@@ -1,7 +1,7 @@
 # Library-Book-Search-System
 
 ## Author
-[Siyang Lyu](https://github.com/IamLeon2022) & [Shilan Li](https://github.com/Shilan2024) & [Zhijing Sun](https://github.com/zhijingsun)  
+[Zhijing Sun](https://github.com/zhijingsun) & [Siyang Lyu](https://github.com/IamLeon2022) & [Shilan Li](https://github.com/Shilan2024)
 
 ## Overview
 We provides the implementation of a book database search website. With intuitive search functionality and user interface, our website provides users with access to a wide range of book information.
